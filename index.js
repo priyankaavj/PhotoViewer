@@ -14,7 +14,7 @@ var set;
 	    
 
 	  };
-	  xhttp.open("GET", "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=d9844134eeef3c4dbb2763c23eb1748a&photoset_id=72157662243715969&user_id=62193851@N07&format=json&nojsoncallback=1", true);
+	  xhttp.open("GET", "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=d9844134eeef3c4dbb2763c23eb1748a&photoset_id=72157628821685399&user_id=68329145@N05&format=json&nojsoncallback=1", true);
 	  xhttp.send();
 	}
 
@@ -40,7 +40,18 @@ var set;
 			img.alt = "Photo with title - " + photo.title;
 			img.setAttribute("idx", i);
 			wrapper.appendChild(img);
-			var src = document.getElementById("album-container");
+			if (i===48) {
+		}
+			var columns = document.getElementsByClassName('column');
+			var min = columns[0].clientHeight;
+			var col = 1;
+			for (var z=0; z< 3; z++) {
+				if (columns[z].clientHeight < min) {
+					col = z+1;
+					min = columns[z].clientHeight;
+				}
+			}
+			var src = document.getElementById("column-"+ col);
 			src.appendChild(wrapper);	
 		}
 
@@ -98,7 +109,9 @@ var set;
 			var img = document.getElementById("modal-content");
 			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
 				photo.id + "_" + photo.secret + "_z" + ".jpg";
-			
+			img.alt = "Photo of - " + photo.title;
+			var imgTitle = document.getElementById("image-title");
+			imgTitle.innerHTML = photo.title
 			addImagesToCarousel(photos);
 		}
 	};
