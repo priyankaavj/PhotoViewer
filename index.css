@@ -34,7 +34,10 @@ body {
 }
 
 #modal-container {
-	display: block;
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	min-width: 650px;
 	width: 100%;
 	height: 100%;
 	background-color: #212124;
@@ -43,51 +46,19 @@ body {
 	left: 0;
 	z-index: 1;
 }
-#close-btn {
-	position: absolute;
-	top: 30px;
-	right: 30px;
-	color: white;
-	font-size: x-large;
-	cursor: pointer;
-}
-
-#fullscreen {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	color: white;
-	font-size: x-large;
-	cursor: pointer;
-}
-
-#right-arrow {
-	position: absolute;
-	top: 50%;
-	right: 30px;
-	color: white;
-	font-size: x-large;
-	cursor: pointer;
-}
-#left-arrow {
-	position: absolute;
-	top: 50%;
-	left: 30px;
-	color: white;
-	font-size: x-large;
-	cursor: pointer;
-}
-
 
 #modal-content {
-	margin: auto;
-	position: absolute;
-	opacity: 1;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	max-height: 580px;
+	height: 500px;
+	width: auto;
+}
+#modal-image-container {
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	flex-direction: column;
+}
+#carousel-container {
+	margin-top: 30px;
 }
 #carousel-container img {
 	opacity: 0.5;
@@ -99,20 +70,48 @@ body {
 	opacity: 0.8;
 	border: 1px solid white;
 }
-#modal-image-container {
+#close-btn {
 	position: absolute;
-	margin: auto;
-	position: absolute;
-	opacity: 1;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	max-height: 580px;
+	top: 20px;
+	right: 20px;
+	background-image: url(./assets/close.png);
+    background-size: 501px 209px;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    background-position: -103px -123px;
+    opacity: 0.4;
 }
-#carousel-container {
-	background-color: black;
-	position: absolute;
-	bottom: 0;
-	left: 40%;
+
+#close-btn:hover {
+	opacity: 0.8;
 }
+
+#right-arrow {
+	right: 20px;
+	background-position: -28px -49px;
+}
+#left-arrow {
+	left: 20px;
+	background-position: 0 -49px;
+}
+
+.arrow {
+	background-size: 500px 137px;
+	position: absolute;
+	top: 50%;
+	opacity: 0.4;
+	background-image: url(./assets/arrows.png);
+	background-repeat: no-repeat;
+	height: 45px;
+    width: 27px;
+}
+
+.arrow:hover {
+	opacity: 0.8;
+}
+
+
+
+
+
