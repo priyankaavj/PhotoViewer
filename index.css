@@ -8,6 +8,7 @@ body {
     padding-right: 130px;
     font-family: Proxima Nova,helvetica neue,helvetica,arial,sans-serif;
 }
+
 #album-container {
 	column-count: 3;
 	column-gap: 3px;
@@ -15,10 +16,6 @@ body {
 	-webkit-column-gap: 3px;
 	-moz-column-count: 3;
 	-moz-column-gap: 3px;
-}
-
-a {
-	text-decoration: none;
 }
 
 #album-container img {
@@ -37,6 +34,11 @@ a {
 
 #modal-container {
 	display: flex;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
   	align-items: center;
   	justify-content: center;
   	min-width: 650px;
@@ -53,25 +55,35 @@ a {
 	height: 500px;
 	width: auto;
 }
+
 #modal-image-container {
 	display: flex;
   	align-items: center;
   	justify-content: center;
   	flex-direction: column;
 }
+
 #carousel-container {
 	margin-top: 30px;
 }
+
 #carousel-container img {
-	opacity: 0.5;
+	opacity: 0.4;
 	height: 40px;
 	width: 40px;
 	margin: 0 5px;
+	cursor: pointer
 }
+
+#carousel-container img:hover {
+	opacity: 0.8;
+}
+
 #carousel-container img.center {
 	opacity: 0.8;
 	border: 1px solid white;
 }
+
 #close-btn {
 	position: absolute;
 	top: 20px;
