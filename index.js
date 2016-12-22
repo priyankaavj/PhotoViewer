@@ -32,20 +32,14 @@
 	function addImagesToPage() {
 		var frag = document.createDocumentFragment(),
 			albumContainer = document.getElementById('album-container'),
-			photo,
 			wrapper,
 			img,
 			i;
 
 		for (i = 0; i < maxIndex; i++) {
-			photo = photos[i];
 			wrapper = document.createElement("a");
 			wrapper.href = "#";
-			img = document.createElement("img");
-			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
-				photo.id + "_" + photo.secret + "_n" + ".jpg";
-			img.alt = "Photo with title - " + photo.title;
-			img.setAttribute("idx", i);
+			img = createImageTag(i, "n");
 			wrapper.appendChild(img);
 			frag.appendChild(wrapper);
 		}
@@ -81,11 +75,8 @@
 
 		for (i = 0; i < indexes.length; i++) {
 			idx = indexes[i];
-			photo = photos[idx];
-			img = document.createElement("img");
-			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
-				photo.id + "_" + photo.secret + "_s" + ".jpg";
-			img.setAttribute("idx", idx);
+			
+			img = createImageTag(idx, "s");
 			
 			if (i === 2) {
 				img.setAttribute("class", "carousel-image center");
@@ -97,6 +88,18 @@
 		}
 
 		carouselContainer.appendChild(frag);
+	}
+
+	function createImageTag(idx, size) {
+		var img = document.createElement("img"),
+			photo = photos[idx];
+
+		img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
+			photo.id + "_" + photo.secret + "_" + size + ".jpg";
+		img.setAttribute("idx", idx);
+		img.alt = "Photo with title - " + photo.title;
+			
+		return img;
 	}
 
 	function updateModal(idx) {
