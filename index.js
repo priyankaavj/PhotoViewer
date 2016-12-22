@@ -32,20 +32,23 @@ var set;
 	function addImagesToPage(photos) {
 		for (var i = 0; i< photos.length; i++) {
 			var photo = photos[i];
+			var wrapper = document.createElement("a");
+			wrapper.href = "#";
 			var img = document.createElement("img");
 			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
 				photo.id + "_" + photo.secret + "_n" + ".jpg";
-			img.setAttribute("id", photo.id);
+			img.alt = "Photo with title - " + photo.title;
 			img.setAttribute("idx", i);
+			wrapper.appendChild(img);
 			var src = document.getElementById("album-container");
-			src.appendChild(img);	
+			src.appendChild(wrapper);	
 		}
 
 		updateModal = setupModal(photos);
 	}
 
 	function addImagesToCarousel(photos) {
-		var center = currentIndex;
+		var center = parseInt(currentIndex, 10);
 		var indexes = [];
 		//size s
 		if (center === maxIndex - 1) {
@@ -71,9 +74,10 @@ var set;
 			var img = document.createElement("img");
 			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
 				photo.id + "_" + photo.secret + "_s" + ".jpg";
-			img.setAttribute("id", photo.id);
+			img.setAttribute("idx", idx);
+			img.setAttribute("class", 'carousel-image');
 			if (i === 2) {
-				img.setAttribute("class", "center");
+				img.setAttribute("class", "carousel-image center");
 			} 
 			src.appendChild(img);
 		}
@@ -85,13 +89,9 @@ var set;
 		var cache = photos,
 			photo;
 
-		return function(id) {
-			if (id) {
-				for(var i=0; i< photos.length; i++) {
-					if (id && photos[i].id === id) {
-						currentIndex = i;
-					}
-				}
+		return function(idx) {
+			if (idx) {
+				currentIndex = idx;
 			}
 			
 			photo = photos[currentIndex];
@@ -121,6 +121,13 @@ var set;
 		updateModal();
 	}
 
+	function handleCarouselClick(target) {
+		var idx = target.getAttribute('idx');
+
+		currentIndex = idx;
+		updateModal();
+	}
+
 	function bind() {
 		document.getElementById("album-container").addEventListener("click", function(e) {
 			// e.target is the clicked element!
@@ -129,7 +136,8 @@ var set;
 				// List item found!  Output the ID!
 				console.log('image was clicked');
 				document.getElementById("modal-container").className = "";
-				updateModal(e.target.id);
+				updateModal(e.target.getAttribute('idx'));
+
 
 			}
 		});
@@ -137,20 +145,21 @@ var set;
 		document.getElementById("modal-container").addEventListener("click", function(e) {
 			// e.target is the clicked element!
 			// If it was a list item
-			if(e.target && e.target.matches("a#close-btn")) {
+			if(e.target && e.target.matches("#close-btn")) {
 				// List item found!  Output the ID!
 				console.log('anchor was clicked');
 				document.getElementById("modal-container").className = "hide";
-			} else if (e.target && e.target.matches("a.left-arrow")) {
+			} else if (e.target && e.target.matches("#left-arrow")) {
 				console.log('left was clicked');
 				goLeft();
-			} else if (e.target && e.target.matches("a#right-arrow")) {
+			} else if (e.target && e.target.matches("#right-arrow")) {
 				console.log('right was clicked');
 				goRight();
-			} else if (e.target && e.target.matches("a.fullscreen")) {
-				console.log('fullscreen was clicked');
-				
-			}		
+			} else if (e.target && e.target.matches(".carousel-image")) {
+				console.log('carousel-image was clicked');
+				handleCarouselClick(e.target);
+			}
+
 
 		});
 
