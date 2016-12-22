@@ -31,22 +31,25 @@ var set;
 
 	pub = addImagesToPage;
 	function addImagesToPage(photos) {
+		var children;
+		var frag = document.createDocumentFragment();
+
 		for(var i=0; i< photos.length; i++){
 			var photo = photos[i];
 			var wrapper = document.createElement("a");
 			wrapper.href = "#";
-			var img = new Image();
+			var img = document.createElement("img");
 			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
 				photo.id + "_" + photo.secret + "_n" + ".jpg";
 			img.alt = "Photo with title - " + photo.title;
 			img.setAttribute("idx", i);
 			wrapper.appendChild(img);
-			
-			var src = document.getElementById("album-container");
-			src.appendChild(wrapper);
+			children = frag.appendChild(wrapper);
 			
 		}
 		
+		var src = document.getElementById("album-container");
+			src.appendChild(frag);
 
 		updateModal = setupModal(photos);
 	}
