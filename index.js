@@ -14,7 +14,7 @@ var set;
 	    
 
 	  };
-	  xhttp.open("GET", "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=d9844134eeef3c4dbb2763c23eb1748a&photoset_id=72157628821685399&user_id=68329145@N05&format=json&nojsoncallback=1", true);
+	  xhttp.open("GET", "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=d9844134eeef3c4dbb2763c23eb1748a&photoset_id=72157643850829444&user_id=78621811@N06&format=json&nojsoncallback=1", true);
 	  xhttp.send();
 	}
 
