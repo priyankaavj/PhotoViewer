@@ -4,6 +4,10 @@
 		maxIndex,
 		photos;
 
+	/**
+     * Interface for making a request to flickr. Supplies the endpoint, builds the payload, and
+     * calls the getImageUrls utility to process the response. No params.
+    **/
 	function getData() {
 		var xhttp = new XMLHttpRequest(),
 			externalUrl = "https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos" +
@@ -13,6 +17,8 @@
 	  	xhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
 		     	getImageUrls(JSON.parse(this.responseText));
+		    } else {
+		    	console.log('Non 200 error code');
 		    }
 	    };
 
@@ -20,6 +26,12 @@
 	  	xhttp.send();
 	}
 
+	/**
+     * Utility to get the image urls from the response data. Called on success of the API call.
+     * Prefills the photos private variable. 
+     *
+     * @param {Object} data response from the server
+    **/
 	function getImageUrls(data) {
 		var cache = [],
 			photo;
@@ -29,6 +41,10 @@
 		addImagesToPage();
 	}
 	
+	/**
+     * Utility to render images on the page in album view.
+     * No params.
+    **/
 	function addImagesToPage() {
 		var frag = document.createDocumentFragment(),
 			albumContainer = document.getElementById('album-container'),
@@ -47,6 +63,10 @@
 		albumContainer.appendChild(frag);
 	}
 
+	/**
+     * Utility to render the correct images in the slider, inside the modal view
+     * No params.
+    **/
 	function addImagesToCarousel() {
 		var center = parseInt(currentIndex, 10),
 			indexes = [],
@@ -90,6 +110,12 @@
 		carouselContainer.appendChild(frag);
 	}
 
+	/**
+     * Utility to create the image tag. User by album and carousel creators.
+     * 
+     * @param {Integer} idx position of the photo in photos
+     * @param {String} size used to construct the img src based on the use case
+    **/
 	function createImageTag(idx, size) {
 		var img = document.createElement("img"),
 			photo = photos[idx];
@@ -102,6 +128,11 @@
 		return img;
 	}
 
+	/**
+     * Utility to set up the contents of the modal
+     * 
+     * @param {Integer} idx position of the photo in photos
+    **/
 	function updateModal(idx) {
 		var img,
 			imgTitle,
@@ -119,18 +150,34 @@
 		addImagesToCarousel();
 	};
 
+	/**
+     * Updates the modal contents on left arrow click or left arrow keypress. 
+     * Updates the currentIndex and calls updateModal
+     * No params
+    **/
 	function goLeft() {
 		currentIndex = parseInt(currentIndex, 10);
 		currentIndex = (currentIndex === 0 ? maxIndex - 1 : currentIndex - 1);
 		updateModal();
 	}
 
+	/**
+     * Updates the modal contents on right arrow click or right arrow keypress. 
+     * Updates the currentIndex and calls updateModal
+     * No params
+    **/
 	function goRight() {
 		currentIndex = parseInt(currentIndex, 10);
 		currentIndex = (currentIndex === maxIndex - 1 ? 0 : currentIndex + 1);
 		updateModal();
 	}
 
+	/**
+     * Updates the modal contents when any element in the carousel is clicked. 
+     * Updates the currentIndex and calls updateModal
+     * 
+     * params {Object} target of the click event
+    **/
 	function handleCarouselClick(target) {
 		var idx = target.getAttribute('idx');
 
@@ -138,11 +185,23 @@
 		updateModal();
 	}
 
+	/**
+     * Updates the state and hides the modal view
+     * No params
+    **/
 	function closeModal() {
 		albumView = true;
 		document.getElementById("modal-container").className = "hide";
 	}
 
+	/**
+     * Binds all the events needed by the app such as
+     * 1. Click handler on the images in album
+     * 2. Click handler on the buttoms and images in the modal
+     * 3. Keyboard shortcuts (arrow & escape) when in the modal
+     * All clicks are delegated onto suitable containers to minimize handler binding.
+     * No params
+    **/
 	function bind() {
 		document.getElementById("album-container").addEventListener("click", function(e) {
 			if(e.target && e.target.nodeName == "IMG") {
@@ -199,6 +258,12 @@
 		};
 	}
 	
+	/**
+     * Initializes the app by doing the following
+     * 1. Kicks of the retrival of data
+     * 2. Binds the event handlers on load of page
+     * No params
+    **/
 	function init() {
 		getData();
 
@@ -207,5 +272,6 @@
 		};
 	}
 
+	// Starting point
 	init();
 }());
