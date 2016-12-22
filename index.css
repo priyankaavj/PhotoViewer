@@ -8,6 +8,14 @@ body {
     padding-right: 130px;
     font-family: Proxima Nova,helvetica neue,helvetica,arial,sans-serif;
 }
+#album-container {
+	column-count: 3;
+	column-gap: 3px;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 3px;
+	-moz-column-count: 3;
+	-moz-column-gap: 3px;
+}
 
 a {
 	text-decoration: none;
@@ -16,17 +24,6 @@ a {
 #album-container img {
 	width: 100% !important;
   	height: auto !important;
-}
-
-#album-container {
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
-	align-items: flex-start;
-}
-#album-container .column {
-	width: 30%;
-	margin: 0 1px;
 }
 
 #image-title {

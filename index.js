@@ -23,37 +23,29 @@ var set;
 		var photo;
 		var cache = [];
 		maxIndex = photos.length;
-		addImagesToPage(photos);
+		addImagesToPage(photos, 0);
 		set = photos;
 	}
 	
 
 	pub = addImagesToPage;
 	function addImagesToPage(photos) {
-		for (var i = 0; i< photos.length; i++) {
+		for(var i=0; i< photos.length; i++){
 			var photo = photos[i];
 			var wrapper = document.createElement("a");
 			wrapper.href = "#";
-			var img = document.createElement("img");
+			var img = new Image();
 			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
 				photo.id + "_" + photo.secret + "_n" + ".jpg";
 			img.alt = "Photo with title - " + photo.title;
 			img.setAttribute("idx", i);
 			wrapper.appendChild(img);
-			if (i===48) {
+			
+			var src = document.getElementById("album-container");
+			src.appendChild(wrapper);
+			
 		}
-			var columns = document.getElementsByClassName('column');
-			var min = columns[0].clientHeight;
-			var col = 1;
-			for (var z=0; z< 3; z++) {
-				if (columns[z].clientHeight < min) {
-					col = z+1;
-					min = columns[z].clientHeight;
-				}
-			}
-			var src = document.getElementById("column-"+ col);
-			src.appendChild(wrapper);	
-		}
+		
 
 		updateModal = setupModal(photos);
 	}
