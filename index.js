@@ -32,7 +32,6 @@
 	function addImagesToPage() {
 		var frag = document.createDocumentFragment(),
 			albumContainer = document.getElementById('album-container'),
-			children,
 			photo,
 			wrapper,
 			img,
@@ -48,7 +47,7 @@
 			img.alt = "Photo with title - " + photo.title;
 			img.setAttribute("idx", i);
 			wrapper.appendChild(img);
-			children = frag.appendChild(wrapper);
+			frag.appendChild(wrapper);
 		}
 		
 		albumContainer.appendChild(frag);
@@ -57,25 +56,27 @@
 	function addImagesToCarousel() {
 		var center = parseInt(currentIndex, 10),
 			indexes = [],
-			src = document.getElementById("carousel-container"),
+			carouselContainer = document.getElementById("carousel-container"),
+			frag = document.createDocumentFragment(),
 			i,
+			index,
 			photo,
 			img;
 		
-		if (center === maxIndex - 1) {
-			indexes = [center - 2, center - 1, center, 0, 1];
-		} else if (center === maxIndex - 2) {
-			indexes = [center - 2, center - 1, center, center+1, 0];
-		} else if (center === 0) {
-			indexes = [maxIndex -2, maxIndex -1, center, center +1, center +2];
-		} else if (center === 1) {
-			indexes = [maxIndex -1, center -1, center, center +1, center +2];
-		} else {
-			indexes = [center -2, center -1, center, center +1, center +2];
-		}
+		for (i = -2; i < 3; i++) {
+			index = center + i;
 
-		while (src.firstChild) {
-		    src.removeChild(src.firstChild);
+			if (index < 0) {
+				index = maxIndex + i;
+			} else if (index > maxIndex - 1) {
+				index = i - 1;
+			}
+
+			indexes.push(index);
+		}
+		
+		while (carouselContainer.firstChild) {
+		    carouselContainer.removeChild(carouselContainer.firstChild);
 		}
 
 		for (i = 0; i < indexes.length; i++) {
@@ -85,12 +86,17 @@
 			img.src = "https://farm"+ photo.farm +".staticflickr.com/" + photo.server +"/" +
 				photo.id + "_" + photo.secret + "_s" + ".jpg";
 			img.setAttribute("idx", idx);
-			img.setAttribute("class", 'carousel-image');
+			
 			if (i === 2) {
 				img.setAttribute("class", "carousel-image center");
-			} 
-			src.appendChild(img);
+			} else {
+				img.setAttribute("class", 'carousel-image');	
+			}
+			
+			frag.appendChild(img);			
 		}
+
+		carouselContainer.appendChild(frag);
 	}
 
 	function updateModal(idx) {
