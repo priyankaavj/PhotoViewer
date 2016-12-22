@@ -4,6 +4,7 @@ var set;
 	var currentIndex = 0;
 	var maxIndex;
 	var updateModal;
+	var albumView = true;
 
 	function getData() {
 		var xhttp = new XMLHttpRequest();
@@ -133,6 +134,11 @@ var set;
 		updateModal();
 	}
 
+	function closeModal() {
+		albumView = true;
+		document.getElementById("modal-container").className = "hide";
+	}
+
 	function bind() {
 		document.getElementById("album-container").addEventListener("click", function(e) {
 			// e.target is the clicked element!
@@ -140,6 +146,7 @@ var set;
 			if(e.target && e.target.nodeName == "IMG") {
 				// List item found!  Output the ID!
 				console.log('image was clicked');
+				albumView = false;
 				document.getElementById("modal-container").className = "";
 				updateModal(e.target.getAttribute('idx'));
 
@@ -153,7 +160,7 @@ var set;
 			if(e.target && e.target.matches("#close-btn")) {
 				// List item found!  Output the ID!
 				console.log('anchor was clicked');
-				document.getElementById("modal-container").className = "hide";
+				closeModal();
 			} else if (e.target && e.target.matches("#left-arrow")) {
 				console.log('left was clicked');
 				goLeft();
@@ -168,6 +175,31 @@ var set;
 
 		});
 
+		document.onkeydown = function(event) {
+			if (!event)
+				event = window.event;
+			var code = event.keyCode;
+			if (event.charCode && code == 0)
+				code = event.charCode;
+			switch(code) {
+				case 37:
+					if (!albumView) {
+						goLeft();
+					}
+					break;
+				case 39:
+					if (!albumView) {
+						goRight();
+					}
+					break;
+				case 27:
+					if (!albumView) {
+						closeModal();
+					}
+					break;
+			}
+			event.preventDefault();
+		};
 
 
 
@@ -175,8 +207,6 @@ var set;
 	function init() {
 		getData();
 
-		//firefox hack
-		//document.getElementById("album-container").style.MozColumnCount = "3";
 		window.onload = function(e) {
 			bind();
 		};
